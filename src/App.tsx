@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 
 function App() {
-    const [headerValue, setHeaderValue] = useState('');
-    const [fileName, setFileName] = useState('');
+    const FILE_NAME_KEY = 'FILE_NAME_KEY';
+    const HEADER_VALUE_KEY = 'HEADER_VALUE_KEY';
 
-    const [csvInputValue, setCsvInputValue] = useState('');
+    const [headerValue, setHeaderValue] = useState(localStorage.getItem(HEADER_VALUE_KEY) || '');
+    const [fileName, setFileName] = useState(localStorage.getItem(FILE_NAME_KEY) || '');
     const [inputValue, setInputValue] = useState('');
     const [outputValue, setOutputValue] = useState('');
 
@@ -12,13 +13,14 @@ function App() {
         const title = event.target.value.trimEnd().replace(/,/g, ' ').split(' ').join(',');
         setHeaderValue(event.target.value);
 
+        localStorage.setItem(HEADER_VALUE_KEY, title);
         const finalValue = title.concat('\n').concat(inputValue);
         setOutputValue(finalValue);
     };
 
     const handleFileNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFileName(event.target.value.concat('.csv'));
-        setCsvInputValue(event.target.value);
+        localStorage.setItem(FILE_NAME_KEY, event.target.value);
+        setFileName(event.target.value);
     };
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -36,7 +38,7 @@ function App() {
         const blob = new Blob([outputValue], {type: 'text/csv;charset=utf-8;'});
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = fileName || 'output.csv';
+        link.download = fileName.concat('.csv') || 'output.csv';
         link.click();
     };
 
@@ -62,7 +64,7 @@ function App() {
                 <input
                     type="text"
                     placeholder="Enter CSV File Name"
-                    value={csvInputValue}
+                    value={fileName}
                     onChange={handleFileNameChange}
                     style={{
                         fontSize: "1.5rem",
