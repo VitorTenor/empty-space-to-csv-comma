@@ -38,7 +38,7 @@ function App() {
         const blob = new Blob([outputValue], {type: 'text/csv;charset=utf-8;'});
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = fileName.concat('.csv') || 'output.csv';
+        link.download = fileName ? fileName.concat('.csv') : 'output.csv';
         link.click();
     };
 
