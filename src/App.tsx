@@ -10,7 +10,7 @@ function App() {
     const [outputValue, setOutputValue] = useState('');
 
     const handleHeaderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const title = event.target.value.replace(' ', ',');
+        const title = event.target.value.replace(/\s+/g, ',');
         setHeaderValue(event.target.value);
 
         localStorage.setItem(HEADER_VALUE_KEY, title);
@@ -25,9 +25,7 @@ function App() {
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const value = event.target.value;
-        const formattedValue = value.split('\n')
-            .map(line => line.replace(' ', ','))
-            .join('\n');
+        const formattedValue = value.replace(/\s+/g, ',');
         const finalValue = headerValue.concat('\n').concat(formattedValue);
 
         setInputValue(formattedValue);
