@@ -17,6 +17,6 @@ fi
 
 docker build -t $IMAGE_NAME .
 
-docker run -p 9274:8080 --name $CONTAINER_NAME $IMAGE_NAME
+docker run -p 9274:8080 --restart always --name $CONTAINER_NAME $IMAGE_NAME
 
 exit
