@@ -25,7 +25,7 @@ function App() {
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         const value = event.target.value;
-        const formattedValue = value.replace(/\s+/g, ',');
+        const formattedValue = value.split('\n').map(line => line.replace(/\s+/g, ',')).join('\n');
         const finalValue = headerValue.concat('\n').concat(formattedValue);
 
         setInputValue(formattedValue);
